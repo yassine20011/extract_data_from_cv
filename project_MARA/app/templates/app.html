@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <title>App</title>
+</head>
+
+<body>
+
+    <ul class="nav justify-content-center">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">samples</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">pricing</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link">About us</a>
+        </li>
+      </ul>
+
+
+    <div class="container m-5">
+        <form id="Post-Form" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="container container-file">
+                <p> Extract information from CV</p>
+                <div class="input-group mb-3">
+                    {{ form }}
+                    <input class="btn btn-dark" value="Upload" type="submit" id="button-addon1" required>
+                </div>                
+        </form>
+
+    <!-- table for resume -->
+    <div class="container">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Degree</th>
+                    <th scope="col">Skills</th>
+                    <th scope="col"> Designation</th>
+                    <th scope="col">Total experience</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>{{ resume.name }}</td>
+                    <td>{{ resume.email }}</td>
+                    <td>{{ resume.mobile_number }}</td>
+                    <td>{{resume.degree}}<td>
+                    <td>
+                        {% for skill in resume.skills %}
+                        {{skill }}
+                        <span>,</span>
+                        {% endfor %}
+                    </td>
+                    <td>{{ resume.designation }}</td>
+                    <td>{{ resume.total_experience }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+
+   
+    {{data.skills}}
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"
+        integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js"
+        integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>
