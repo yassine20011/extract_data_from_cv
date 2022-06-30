@@ -1,4 +1,6 @@
 {% load static %}
+{% load bootstrap5 %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,80 +10,150 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    {% bootstrap_css %}
     <title>App</title>
 </head>
 
 <body>
 
-    <ul class="nav justify-content-center">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">samples</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">pricing</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link">About us</a>
-        </li>
-      </ul>
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1">Resume parser</span>
+            <ul class="nav justify-content-center ">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">pricing</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link">About us</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
 
-    <div class="container m-5">
-        <form id="Post-Form" method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="container container-file">
-                <p> Extract information from CV</p>
-                <div class="input-group mb-3">
-                    {{ form }}
-                    <input class="btn btn-dark" value="Upload" type="submit" id="button-addon1" required>
-                </div>                
-        </form>
+
+    <form claas="form" id="Post-Form" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="container">
+            <p class="text-2">
+            <h6>Upload CV</h6>
+            <hr>
+            </p>
+
+            <div class="input-group mb-3">
+                {{ form.file }}
+                <input class="btn btn-primary" value="Extraction" type="submit" id="button-addon1" required>
+            </div>
+    </form>
 
     <!-- table for resume -->
-    <div class="container">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Phone</th>
-                    <th scope="col">Degree</th>
-                    <th scope="col">Skills</th>
-                    <th scope="col"> Designation</th>
-                    <th scope="col">Total experience</th>
-                </tr>
-            </thead>
+    {% if resume_data != none %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Degree</th>
+                <th scope="col">Skills</th>
+                <th scope="col"> Designation</th>
+                <th scope="col">Total experience</th>
+            </tr>
+        </thead>
 
-            <tbody>
-                <tr>
-                    <td>{{ resume.name }}</td>
-                    <td>{{ resume.email }}</td>
-                    <td>{{ resume.mobile_number }}</td>
-                    <td>{{resume.degree}}<td>
-                    <td>
-                        {% for skill in resume.skills %}
-                        {{skill }}
-                        <span>,</span>
-                        {% endfor %}
-                    </td>
-                    <td>{{ resume.designation }}</td>
-                    <td>{{ resume.total_experience }}</td>
-                </tr>
-            </tbody>
-        </table>
+        <tbody>
+            {% for resume in resume_data %}
+            <tr>
+
+                <th scope="row">{{resume.id}}</th>
+
+                <td>{{  resume.name }}</td>
+                <td>{{  resume.email }}</td>
+                <td>{{  resume.mobile_number }}</td>
+                <td>{{ resume.degree}}
+                <td>
+                <td>
+                    {% for skill in  resume.skills %}
+                    {{skill }}
+                    <span>,</span>
+                    {% endfor %}
+                </td>
+                <td>{{  resume.designation }}</td>
+                <td>{{  resume.total_experience }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary" role="button" aria-disabled="true" href="{{file_name}}">CSV</a>
+    <a class="btn btn-primary" role="button" aria-disabled="true" href="{{file_name_xslx}}">Excel</a>
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        JSON
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">JSON</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <code id="json-data">
+                {{resume_data_json}}
+            </code>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" onclick="Download()" class="btn btn-primary">Download as file</button>
+                    <button type="button" id="copy" class="btn btn-primary">Copy</button>
+                </div>
+            </div>
+        </div>
     </div>
 
-</div>
+
+    {% endif %}
+
+
+    </div>
+
+
+    <script>
+        // save the resume data in json format
+        function Download() {
+            var data = document.getElementById("json-data").innerHTML;
+            var blob = new Blob([data], {
+                type: "application/json"
+            });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement("a");
+            a.href = url;
+            a.download = "resume.json";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        const btn = document.getElementById("copy");
+        btn.addEventListener("click", function() {
+            const data = document.getElementById("json-data").innerHTML;
+            navigator.clipboard.writeText(data);
+            alert("Copied to clipboard");
+
+        }, false);
+    </script>
 
 
 
-   
-    {{data.skills}}
-    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
         crossorigin="anonymous"></script>

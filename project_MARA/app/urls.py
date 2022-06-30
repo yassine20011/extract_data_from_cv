@@ -2,5 +2,5 @@ from . import views
 from django.urls import path
 
 urlpatterns = [
-    path('', views.app , name='index'),
-]
+    path('', views.UploadView.as_view() ,name='index'),
+] 

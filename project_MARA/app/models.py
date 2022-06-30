@@ -1,6 +1,8 @@
 from django.db import models
+import os
+from uuid import uuid4
 
-# Create your models here.
+
 
 
 class upload_file(models.Model):

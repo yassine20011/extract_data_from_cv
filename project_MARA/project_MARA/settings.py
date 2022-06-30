@@ -26,6 +26,7 @@ SECRET_KEY = 'django-insecure-hgvn*@h#e7kx6k-@kre9%kc9@4&$0_uh^e+8%y@kwk&a6s0dar
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+
 ALLOWED_HOSTS = []
 
 
@@ -59,7 +60,8 @@ ROOT_URLCONF = 'project_MARA.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR),'templates'],        'APP_DIRS': True,
+        'DIRS': [BASE_DIR / 'templates'],       
+        'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -122,9 +124,14 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads/')
+
+MEDIA_URL = "/download/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+

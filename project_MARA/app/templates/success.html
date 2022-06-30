@@ -1,0 +1,72 @@
+{% extends "app.html"%}
+
+{% block content %}
+<!-- table for resume -->
+{% if resume_data != none %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Degree</th>
+            <th scope="col">Skills</th>
+            <th scope="col"> Designation</th>
+            <th scope="col">Total experience</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <th scope="row"></th>
+
+            <td>{{ resume_data.name }}</td>
+            <td>{{ resume_data.email }}</td>
+            <td>{{ resume_data.mobile_number }}</td>
+            <td>{{resume_data.degree}}
+            <td>
+            <td>
+                {% for skill in resume_data.skills %}
+                {{skill }}
+                <span>,</span>
+                {% endfor %}
+            </td>
+            <td>{{ resume_data.designation }}</td>
+            <td>{{ resume_data.total_experience }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<button type="button" onclick="DownloadExcel()" class="btn btn-primary">Excel</button>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    JSON
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">JSON</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <code id="json-data">
+            {{resume_data_json}}
+        </code>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" onclick="Download()" class="btn btn-primary">Download as file</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endif %}
+
+{% endblock %}
