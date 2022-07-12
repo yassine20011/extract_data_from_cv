@@ -1,19 +1,12 @@
-import contextlib
-from itertools import count
-from turtle import pd, pos
-from unicodedata import name
-from django.shortcuts import render, HttpResponseRedirect, HttpResponse
-from numpy import append
+from django.shortcuts import render
 from .forms import upload_form
 from pyresparser import ResumeParser
 from django.conf import settings
-import glob, os, warnings, re, json, random, string
-from django.contrib import messages
-from .models import upload_file
-from uuid import uuid4
+import glob, os, warnings, json, random, string
 from django.utils.safestring import SafeString
 from django.views.generic.edit import FormView
 import pandas as pd
+
 warnings.filterwarnings("ignore")
 
 
